@@ -7,15 +7,17 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+
 import { ExpensesService } from './expenses.service';
-import { Prisma } from '@prisma/client';
+import { CreateExpenseDto } from './dto/create-expense.dto';
+import { UpdateExpenseDto } from './dto/update-expense.dto';
 
 @Controller('expenses')
 export class ExpensesController {
   constructor(private readonly expensesService: ExpensesService) {}
 
   @Post()
-  create(@Body() createExpenseDto: Prisma.ExpenseCreateInput) {
+  create(@Body() createExpenseDto: CreateExpenseDto) {
     return this.expensesService.create(createExpenseDto);
   }
 
@@ -30,10 +32,7 @@ export class ExpensesController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateExpenseDto: Prisma.ExpenseUpdateInput,
-  ) {
+  update(@Param('id') id: string, @Body() updateExpenseDto: UpdateExpenseDto) {
     return this.expensesService.update(id, updateExpenseDto);
   }
 
